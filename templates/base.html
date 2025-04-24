@@ -88,10 +88,19 @@
 <body>
   <nav>
     {% if session.get('user_id') %}
-      <a href="{{ url_for('dashboard') }}">대시보드</a>
-      <a href="{{ url_for('profile') }}">프로필</a>
-      <a href="{{ url_for('report') }}">신고하기</a>
-      <a href="{{ url_for('logout') }}">로그아웃</a>
+      {% if user and user.is_admin %}
+        <a href="{{ url_for('admin_dashboard') }}">🛠 관리자 대시보드</a>
+        <a href="{{ url_for('logout') }}">로그아웃</a>
+    
+      {% else %}
+        <a href="{{ url_for('dashboard') }}">📋대시보드</a>
+        <a href="{{ url_for('chat_list') }}">
+          💬 채팅{% if has_unread_chat %}<span style="color:red;"> ●</span>{% endif %}
+        </a>
+        <a href="{{ url_for('profile') }}">😉프로필{% if user %}({{ user.username }}){% endif %}</a>
+        <a href="{{ url_for('logout') }}">로그아웃</a>
+      {% endif %}
+    
     {% else %}
       <a href="{{ url_for('login') }}">로그인</a>
       <a href="{{ url_for('register') }}">회원가입</a>

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}상품 관리{% endblock %}
+{% block content %}
+<h2>📚상품 관리</h2>
+<table border="1" cellpadding="8">
+  <tr>
+    <th>상품명</th>
+    <th>가격</th>
+    <th>판매자</th>
+    <th>상태</th>
+  </tr>
+  {% for product in products %}
+    <tr>
+      <td>{{ product.title }}</td>
+      <td>{{ product.price }}</td>
+      <td>{{ product.seller_name }}</td>
+      <td>{{ product.status }}</td>
+    </tr>
+  {% endfor %}
+</table>
+<p><a href="{{ url_for('admin_dashboard') }}">← 관리자 대시보드로</a></p>
+{% endblock %}

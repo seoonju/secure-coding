@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}유저 관리{% endblock %}
+{% block content %}
+<h2>👤 유저 목록</h2>
+<table border="1" cellpadding="8">
+  <tr>
+    <th>아이디</th>
+    <th>사용자명</th>
+    <th>관리자 여부</th>
+    <th>포인트</th>
+  </tr>
+  {% for user in users %}
+    <tr>
+      <td>{{ user.id }}</td>
+      <td>{{ user.username }}</td>
+      <td>{{ "✅" if user.is_admin else "❌" }}</td>
+      <td>{{ user.points }}</td>
+    </tr>
+  {% endfor %}
+</table>
+<p><a href="{{ url_for('admin_dashboard') }}">← 관리자 대시보드로</a></p>
+{% endblock %}

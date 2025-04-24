@@ -1,8 +1,44 @@
 {% extends "base.html" %}
 {% block title %}상품 상세보기{% endblock %}
 {% block content %}
-<h2>{{ product.title }}</h2>
-<p>{{ product.description }}</p>
-<p>가격: {{ product.price }}</p>
-<p>판매자: {{ seller.username if seller else '알 수 없음' }}</p>
+<h2 style="color:#007AFF;">📦 {{ product.title }}</h2>
+<p><strong>설명:</strong> {{ product.description }}</p>
+<p><strong>가격:</strong> {{ product.price }}원</p>
+<p><strong>판매자:</strong> {{ seller.username if seller else '알 수 없음' }}</p>
+
+{% if not is_owner %}
+  {% if product.status != 'sold' %}
+    <form method="POST" action="{{ url_for('purchase', product_id=product.id) }}">
+      <button type="submit">💰 거래하기</button>
+    </form>
+  {% else %}
+    <p><strong style="color:green;">✅ 거래 완료된 상품입니다</strong></p>
+  {% endif %}
+
+  {% if can_review %}
+    <p><a href="{{ url_for('write_review', target_user_id=seller.id, product_id=product.id) }}">📝 판매자 후기 작성</a></p>
+  {% endif %}
+
+  <p><a href="{{ url_for('chat', receiver_id=seller.id) }}">💬 1:1 채팅하기</a></p>
+  <p>
+    <a href="{{ url_for('report_target', target_type='user', target_id=seller.id) }}">🙋‍♀️ 판매자 신고</a> |
+    <a href="{{ url_for('report_target', target_type='product', target_id=product.id) }}">📦 상품 신고</a>
+  </p>
+{% endif %}
+
+<hr>
+<h3>🧾 판매자 후기</h3>
+{% if reviews %}
+  <ul>
+    {% for review in reviews %}
+      <li style="margin-bottom: 10px;">
+        <strong>⭐ 평점:</strong> {{ review.rating }}점<br>
+        <strong>📝 내용:</strong> {{ review.content }}<br>
+        <strong>👤 작성자:</strong> {{ review.reviewer_name }}
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>아직 이 판매자에 대한 후기가 없습니다.</p>
+{% endif %}
 {% endblock %}

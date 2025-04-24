@@ -1,19 +1,44 @@
 {% extends "base.html" %}
 {% block title %}대시보드{% endblock %}
 {% block content %}
-<h2>대시보드</h2>
-<h3>등록된 상품</h3>
+<h1>📋 대시보드</h1>
+
+<form method="GET" action="{{ url_for('dashboard') }}" style="margin-bottom: 20px;">
+  <input type="text" name="q" placeholder="상품명 또는 설명, 유저 검색" value="{{ request.args.get('q', '') }}">
+  <button type="submit">검색</button>
+</form>
+
+<h3>🛒 등록된 상품</h3>
 <ul>
   {% for product in products %}
-    <li>
-      <a href="{{ url_for('view_product', product_id=product.id) }}">{{ product.title }}</a>
-      - 가격: {{ product.price }}
+    <li style="margin-bottom: 15px;">
+      <a href="{{ url_for('view_product', product_id=product.id) }}"
+         style="font-size: 1.2rem; font-weight: 700; text-decoration: none; ">
+         {{ product.title }}
+      </a><br>
+      💵 가격: <strong>{{ product.price }}</strong><br>
+      🧑‍💼 판매자: {{ product.username }}
     </li>
   {% endfor %}
 </ul>
-<p><a href="{{ url_for('new_product') }}">새 상품 등록</a></p>
+<p>
+  <a href="{{ url_for('new_product') }}" 
+     style="
+       display: inline-block;
+       padding: 10px 16px;
+       border: 2px solid #007AFF;
+       border-radius: 6px;
+       text-decoration: none;
+       color: #007AFF;
+       font-weight: bold;
+       background-color: #f0f8ff;
+     ">
+    ➕ 새 상품 등록
+  </a>
+</p>
 
-<h3>실시간 채팅</h3>
+<br>
+<h3>💬 실시간 채팅</h3>
 <div id="chat">
   <ul id="messages"></ul>
   <input id="chat_input" type="text" placeholder="메시지를 입력하세요">

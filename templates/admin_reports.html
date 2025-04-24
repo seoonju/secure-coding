@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}상품 관리{% endblock %}
+{% block content %}
+<h2>🤙신고 목록</h2>
+<table border="1" cellpadding="8">
+  <tr>
+    <th>신고자</th>
+    <th style="width: 20%;">대상</th>
+    <th>대상 유형</th>
+    <th style="width: 30%;">사유</th>
+    <th>처리 여부</th>
+    <th>조치</th>
+  </tr>
+  {% for report in reports %}
+  <tr>
+    <td>{{ report.reporter_name }}</td>
+    <td>
+      {% if report.target_type == 'user' %}
+        {{ report.target_name }}
+      {% elif report.target_type == 'product' %}
+        {{ report.product_title or '삭제된 상품' }}
+      {% endif %}
+    </td>
+    <td>{{ report.target_type }}</td>
+    <td>{{ report.reason }}</td>
+    <td>{{ "✅ 완료" if report.resolved else "❌ 미처리" }}</td>
+    <td>
+      {% if not report.resolved %}
+        {% if report.target_type == 'user' %}
+        <form method="POST" action="{{ url_for('block_user', user_id=report.target_id, report_id=report.id) }}" style="display:inline;">
+          <button type="submit">유저 차단</button>
+        </form>
+        {% elif report.target_type == 'product' %}
+        <form method="POST" action="{{ url_for('delete_reported_product', product_id=report.target_id, report_id=report.id) }}" style="display:inline;">
+          <button type="submit">상품 삭제</button>
+        </form>
+        {% endif %}
+      {% else %}
+        처리 완료됨
+      {% endif %}
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+<p><a href="{{ url_for('admin_dashboard') }}">← 관리자 대시보드로</a></p>
+{% endblock %}

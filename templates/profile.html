@@ -1,11 +1,33 @@
 {% extends "base.html" %}
 {% block title %}프로필{% endblock %}
 {% block content %}
-<h2>프로필 관리</h2>
-<p>사용자명: {{ user.username }}</p>
+<h2>{{ user.username }}님의 프로필</h2>
+
+<div style="margin-bottom: 30px;">
+  <p><strong>보유 포인트:</strong> <span style="color:#007AFF">{{ user.points or 0 }}P</span></p>
+  <p><strong>소개글:</strong> {{ user.bio or '작성된 소개글이 없습니다.' }}</p>
+</div>
+
+<hr>
+<h3>💳 포인트 충전</h3>
+<form method="POST" action="{{ url_for('charge') }}">
+    <label>충전 포인트</label>
+    <input type="number" name="amount" min="1" required>
+  <button type="submit">충전</button>
+</form>
+
+<h3>📝 소개글 수정</h3>
 <form method="post">
-  소개글: <br>
-  <textarea name="bio" rows="4" cols="50">{{ user.bio or '' }}</textarea><br>
+  <textarea name="bio" rows="4" placeholder="자기소개를 입력하세요...">{{ user.bio or '' }}</textarea>
   <button type="submit">프로필 업데이트</button>
+</form>
+
+<h3>🔐 비밀번호 변경</h3>
+<form method="POST">
+  <label>현재 비밀번호:</label>
+  <input type="password" name="current_password" required><br>
+  <label>새 비밀번호:</label>
+  <input type="password" name="new_password" required><br>
+  <button type="submit">비밀번호 변경</button>
 </form>
 {% endblock %}

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}1:1 채팅{% endblock %}
+{% block content %}
+<h2>💬 {{ receiver.username }} 님과의 채팅</h2>
+
+<div style="border: 1px solid #ccc; padding: 10px; height: 300px; overflow-y: scroll; background: #fafafa;">
+  {% for chat in chats %}
+    <div style="margin-bottom: 10px;">
+      <strong>{{ chat.sender_name }}</strong>: {{ chat.message }}<br>
+      <small>{{ chat.timestamp }}</small>
+    </div>
+  {% endfor %}
+</div>
+
+<form method="POST" style="margin-top: 20px;">
+  <input type="text" name="message" placeholder="메시지를 입력하세요" required>
+  <button type="submit">전송</button>
+</form>
+{% endblock %}

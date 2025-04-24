@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}후기 작성{% endblock %}
+{% block content %}
+<h2>후기 작성하기</h2>
+<p>대상 사용자: {{ target.username }}</p>
+<form method="POST">
+  <label for="rating">평점 (1~5):</label><br>
+  <input type="number" name="rating" min="1" max="5" required><br><br>
+
+  <label for="content">후기 내용:</label><br>
+  <textarea name="content" rows="4" cols="40" required></textarea><br><br>
+
+  <button type="submit">후기 등록</button>
+</form>
+{% endblock %}

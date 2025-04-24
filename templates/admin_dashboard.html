@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}관리자 대시보드{% endblock %}
+{% block content %}
+<h2>🔒 관리자 대시보드</h2>
+<ul>
+  <li>전체 유저 수: {{ user_count }}</li>
+  <li>전체 상품 수: {{ product_count }}</li>
+  <li>신고 수: {{ report_count }}</li>
+</ul>
+
+<h3>관리 기능</h3>
+<ul>
+  <li><a href="{{ url_for('admin_users') }}">유저 관리</a></li>
+  <li><a href="{{ url_for('admin_products') }}">상품 관리</a></li>
+  <li><a href="{{ url_for('admin_reports') }}">신고 관리</a></li>
+</ul>
+{% endblock %}
